@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ article.id ? 'Modifier' : 'Créer' }} un article
+{% endblock %}
+
+{% block body %}
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0">{{ article.id ? 'Modifier' : 'Créer' }} un article</h2>
+                </div>
+                <div class="card-body">
+
+                    {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
+
+                    <div class="mb-3">
+                        {{ form_label(form.title, 'Titre', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.title) }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_label(form.subtitle, 'Sous-titre', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.subtitle, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.subtitle) }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_label(form.content, 'Contenu', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.content, {'attr': {'class': 'form-control', 'rows': 5}}) }}
+                        {{ form_errors(form.content) }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_label(form.slug, 'Slug (URL)', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.slug, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.slug) }}
+                    </div>
+
+                    {# <div class="mb-3">
+                        {{ form_label(form.publishedAt, 'Date de publication', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.publishedAt, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.publishedAt) }}
+                    </div> #}
+
+                    <div class="mb-3">
+                        {{ form_label(form.readingTime, 'Durée de lecture (minutes)', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.readingTime, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.readingTime) }}
+                    </div>
+
+                    <div class="mb-3 form-check">
+                        {{ form_label(form.isPublished, 'Publié ?', {'label_attr': {'class': 'form-check-label'}}) }}
+                        {{ form_widget(form.isPublished, {'attr': {'class': 'form-check-input'}}) }}
+                        {{ form_errors(form.isPublished) }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_label(form.imageFile, 'Image principale (JPG/PNG/GIF)', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.imageFile, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.imageFile) }}
+                    </div>
+
+                    {% if article.imageName %}
+                        <div class="mb-3">
+                            <p>Image actuelle :</p>
+                            <img src="{{ asset('uploads/images/' ~ article.imageName) }}" alt="Image actuelle" width="200" class="img-thumbnail">
+                        </div>
+                    {% endif %}
+
+                    <button type="submit" class="btn btn-success">
+                        {{ article.id ? 'Mettre à jour' : 'Créer' }}
+                    </button>
+
+                    {{ form_end(form) }}
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white text-center">
+                    <h1 class="mb-0">{{ article.title }}</h1>
+                </div>
+                <div class="card-body">
+
+                    {% if article.imageName %}
+                        <div class="text-center mb-4">
+                            <img src="{{ asset('uploads/images/' ~ article.imageName) }}" alt="Image de l'article" class="img-fluid rounded" style="max-height: 300px;">
+                        </div>
+                    {% endif %}
+
+                    <p><strong>Sous-titre :</strong> {{ article.subtitle }}</p>
+                    <p><strong>Contenu :</strong></p>
+                    <p>{{ article.content }}</p>
+                    <p><strong>Lu en :</strong> {{ article.readingTime }} minutes</p>
+                    <p><strong>Date de publication :</strong> {{ article.publishedAt|date('d/m/Y H:i') }}</p>
+                    <p><strong>Statut :</strong> {{ article.isPublished ? 'Publié' : 'Brouillon' }}</p>
+
+                    <div class="d-flex gap-2">
+                        <a href="{{ path('app_article_edit', {id: article.id}) }}" class="btn btn-warning">Modifier</a>
+                        <a href="{{ path('app_article_index') }}" class="btn btn-secondary">Retour à la liste</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -7,8 +7,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
+#[Vich\Uploadable]
 class Article
 {
     #[ORM\Id]
@@ -28,11 +31,8 @@ class Article
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $slug = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $mainImage = null;
-
-    #[ORM\Column]
-    private ?\DateTime $publishedAt = null;
+    #[ORM\Column (type: 'datetime')]
+    private ?\DateTimeInterface $updatedAt = null;
 
     #[ORM\Column]
     private ?int $readingTime = null;
@@ -52,10 +52,12 @@ class Article
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'article')]
     private Collection $comments;
 
-    #[ORM\ManyToOne(inversedBy: 'articles')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $Articles = null;
+    #[Vich\UploadableField(mapping: 'articles', fileNameProperty: 'imageName')]
+    private ?File $imageFile = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $imageName = null;
+    
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -114,26 +116,14 @@ class Article
         return $this;
     }
 
-    public function getMainImage(): ?string
+    public function getUpdatedAt(): ?\DateTime
     {
-        return $this->mainImage;
+        return $this->updatedAt;
     }
 
-    public function setMainImage(string $mainImage): static
+    public function setupdatedAt(\DateTime $updatedAt): static
     {
-        $this->mainImage = $mainImage;
-
-        return $this;
-    }
-
-    public function getPublishedAt(): ?\DateTime
-    {
-        return $this->publishedAt;
-    }
-
-    public function setPublishedAt(\DateTime $publishedAt): static
-    {
-        $this->publishedAt = $publishedAt;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
@@ -216,15 +206,27 @@ class Article
         return $this;
     }
 
-    public function getArticles(): ?User
+     public function setImageFile(?File $imageFile = null): void
     {
-        return $this->Articles;
+        $this->imageFile = $imageFile;
+
+        if ($imageFile !== null) {
+            $this->updatedAt = new \DateTimeImmutable();
+        }
     }
 
-    public function setArticles(?User $Articles): static
+    public function getImageFile(): ?File
     {
-        $this->Articles = $Articles;
-
-        return $this;
+        return $this->imageFile;
     }
+
+     public function getImageName(): ?string
+    {
+        return $this->imageName;
+    }
+    
+    public function setImageName(?string $imageName): void
+    {
+        $this->imageName = $imageName;
+    }  
 }

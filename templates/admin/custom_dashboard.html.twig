@@ -1,0 +1,42 @@
+{# templates/admin/custom_dashboard.html.twig #}
+
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content %}
+    <div class="dashboard-wrapper" style="font-family: 'Lora', serif; color: #4B715F;">
+        <h1 class="mb-4 text-3xl font-bold">🌿 Bienvenue dans l’espace administrateur GreenGlow</h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="p-4 bg-[#FAF8F5] rounded-xl shadow">
+                <h2 class="text-xl font-semibold">📰 Articles</h2>
+                <p class="text-3xl mt-2">{# {{ articlesCount }} #} Nombre d'articles</p>
+            </div>
+
+            <div class="p-4 bg-[#FAF8F5] rounded-xl shadow">
+                <h2 class="text-xl font-semibold">🍵 Recettes</h2>
+                <p class="text-3xl mt-2">{# {{ recipesCount }} #} Nombre de recettes</p>
+            </div>
+
+            <div class="p-4 bg-[#FAF8F5] rounded-xl shadow">
+                <h2 class="text-xl font-semibold">📬 Messages</h2>
+                <p class="text-3xl mt-2">{# {{ messagesCount }} #} Nombre de messages</p>
+            </div>
+        </div>
+
+        <div class="mt-10">
+            <h2 class="text-2xl font-bold mb-4">🆕 Derniers articles publiés</h2>
+            <ul class="space-y-2">
+                {# {% for article in latestArticles %} #}
+                    <li class="bg-white p-3 rounded shadow border-l-4 border-[#4B715F]">
+                        <strong>{# {{ article.title }} #} Titre de l'article</strong>
+                        <br>
+                        <small>Publié le {# {{ article.publishedAt|date('d/m/Y') }} #}</small>
+                    </li>
+                {# {% else %} #}
+                    <p>Aucun article publié récemment.</p>
+                {# {% endfor %} #}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+

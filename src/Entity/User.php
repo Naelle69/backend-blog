@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -37,7 +35,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::TEXT)]
     private ?string $bio = null;
 
     #[ORM\Column(length: 255)]
@@ -45,27 +43,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private ?\DateTime $createdAt = null;
-
-    /**
-     * @var Collection<int, Article>
-     */
-    #[ORM\OneToMany(targetEntity: Article::class, mappedBy: 'Articles')]
-    private Collection $articles;
-
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?NewsletterSubscriber $newsletterSubscription = null;
-
-    /**
-     * @var Collection<int, Comment>
-     */
-    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'user')]
-    private Collection $comments;
-
-    public function __construct()
-    {
-        $this->articles = new ArrayCollection();
-        $this->comments = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -157,21 +134,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->bio;
     }
 
-    public function setBio(?string $bio): static
+    public function setBio(string $bio): static
     {
         $this->bio = $bio;
-
-        return $this;
-    }
-
-    public function getProfilePicture(): ?string
-    {
-        return $this->profilePicture;
-    }
-
-    public function setProfilePicture(string $profilePicture): static
-    {
-        $this->profilePicture = $profilePicture;
 
         return $this;
     }
@@ -188,75 +153,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Article>
-     */
-    public function getArticles(): Collection
-    {
-        return $this->articles;
-    }
 
-    public function addArticle(Article $article): static
-    {
-        if (!$this->articles->contains($article)) {
-            $this->articles->add($article);
-            $article->setArticles($this);
-        }
-
-        return $this;
-    }
-
-    public function removeArticle(Article $article): static
-    {
-        if ($this->articles->removeElement($article)) {
-            // set the owning side to null (unless already changed)
-            if ($article->getArticles() === $this) {
-                $article->setArticles(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getNewsletterSubscription(): ?NewsletterSubscriber
-    {
-        return $this->newsletterSubscription;
-    }
-
-    public function setNewsletterSubscription(?NewsletterSubscriber $newsletterSubscription): static
-    {
-        $this->newsletterSubscription = $newsletterSubscription;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Comment>
-     */
-    public function getComments(): Collection
-    {
-        return $this->comments;
-    }
-
-    public function addComment(Comment $comment): static
-    {
-        if (!$this->comments->contains($comment)) {
-            $this->comments->add($comment);
-            $comment->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeComment(Comment $comment): static
-    {
-        if ($this->comments->removeElement($comment)) {
-            // set the owning side to null (unless already changed)
-            if ($comment->getUser() === $this) {
-                $comment->setUser(null);
-            }
-        }
-
-        return $this;
-    }
 }
