@@ -10,6 +10,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 
 class UserCrudController extends AbstractCrudController
 {
@@ -29,6 +30,11 @@ class UserCrudController extends AbstractCrudController
             TextEditorField::new('bio'),
             TextField::new('profilePicture')->hideOnIndex(),
             DateTimeField::new('createdAt')->setFormTypeOption('widget', 'single_text'),
+            ImageField::new('profilePicture')
+                        ->setBasePath('/uploads/users')
+                        ->setUploadDir('public/uploads/users')
+                        ->setUploadedFileNamePattern('[slug]-[timestamp].[extension]')
+                        ->setRequired(false),
         ];
     }
 }

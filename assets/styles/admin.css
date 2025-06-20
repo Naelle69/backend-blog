@@ -1,0 +1,140 @@
+/* admin.css */
+
+body,
+.content-header,
+td
+ {
+    font-family: 'Segoe UI', sans-serif;
+    background-color:  #FAF8F5 !important;
+}
+
+tr:active
+ {
+    background-color:  #ffffff !important;
+}
+
+
+h1, h2, h3, h4, h5 {
+    color: #4B715F;
+    font-weight: 600;
+
+}
+
+tbody, td, tfoot, th, thead, tr {
+    border-color: #4B715F !important;
+}
+
+thead tr th a{
+    color: #4B715F !important;
+    font-weight:700;
+}
+
+td a,
+td a:hover{
+    color: #4B715F;
+    font-weight: 600;
+}
+
+.ea-dark-scheme .form-switch .form-check-input:checked, .form-switch .form-check-input:checked{
+    background-color: #4B715F;
+    border-color: #4B715F;
+}
+
+.searchable .text-field-text {
+    background: #4B715F !important;
+}
+
+.color-sample {
+    background: #4B715F !important;
+}
+
+.main-header #header-logo a {
+    color: #DDD0C8 !important;
+}
+
+.logo-custom{
+       color:  #DDD0C8;
+        font-weight: bold;
+    }
+
+    #main-menu .menu .menu-item.active {
+        background-color: white;
+    }
+
+    .fw-bold,
+    .fs-5,
+    .menu-item-contents .menu-item-label {
+        color:  #FAF8F5;
+    }
+
+    /* Cible le lien complet */
+    a.menu-item-contents {
+        color:  #faf5f9; /* Couleur du texte */
+        text-decoration: none; /* Retirer le soulignement si souhaité */
+    }
+
+    /* Cible l'icône (Font Awesome) à l'intérieur du lien */
+    a.menu-item-contents .menu-icon i {
+        color:  #FAF8F5;
+    }
+
+    /* Optionnel : survol du lien */
+    a.menu-item-contents:hover {
+        color:  #FAF8F5; /* Une nuance plus foncée pour l'effet de survol */
+    }
+
+    #main-menu .menu .menu-item.active {
+        color: #4B715F !important;
+    }
+
+    .menu-item-contents .menu-item-label:active {
+        color:  #4B715F; /* Une nuance plus foncée pour l'effet de survol */
+    }
+
+    .menu-item-contents .menu-item-label:focus {
+        color:  #4B715F; /* Une nuance plus foncée pour l'effet de survol */
+    }
+
+    a.menu-item-contents .menu-icon i:active {
+        color:  #4B715F; /* Une nuance plus foncée pour l'effet de survol */
+    }
+
+    a.menu-item-contents .menu-icon i:focus {
+        color:  #4B715F; /* Une nuance plus foncée pour l'effet de survol */
+    }
+
+    /* Assure aussi la couleur sur hover pour l’icône */
+    a.menu-item-contents:hover .menu-icon i {
+        color:  #FAF8F5;
+    }
+
+    button, .btn {
+    border-radius: 5px !important;
+    background-color: #4B715F !important;
+    color:  #FAF8F5;
+    font-weight: 500;
+}
+
+    .sidebar{
+        background-color:  #4B715F;
+    }
+
+    .user-menu-wrapper .user-avatar,
+    .user-name{
+        color: #4B715F;
+        background-color: transparent !important;
+    }
+
+    .dropdown-settings .dropdown-settings-button{
+        color: #4B715F;
+    }
+
+    .content-top {
+        align-items: center;
+        box-shadow: white !important;
+    }
+
+    .menu-header-contents .menu-item-label{
+        color: #DDD0C8;
+        font-weight: bold;
+    }

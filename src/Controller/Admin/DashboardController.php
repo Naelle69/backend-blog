@@ -10,6 +10,9 @@ use App\Entity\Tag;
 use App\Entity\User;
 use App\Entity\Recipe;
 use App\Entity\RecipeCategory;
+use APP\Entity\Ingredient;
+use App\Entity\RecipeIngredient;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -32,6 +35,12 @@ class DashboardController extends AbstractDashboardController
             ->setTitle('🌿 Green & Glow');
     }
 
+    public function configureAssets(): Assets
+    {
+    return Assets::new()
+        ->addCssFile('/styles/admin.css');
+    }
+
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('📊 Tableau de bord');
@@ -47,6 +56,8 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section('🌿 Recettes naturelles');
         yield MenuItem::linkToCrud('Recettes', 'fas fa-utensils', Recipe::class);
         yield MenuItem::linkToCrud('Catégories de recettes', 'fas fa-seedling', RecipeCategory::class);
+        yield MenuItem::linkToCrud('Ingrédients', 'fas fa-carrot', Ingredient::class);
+        yield MenuItem::linkToCrud('Ingrédients par recette', 'fas fa-list', RecipeIngredient::class);
 
         // Communauté
         yield MenuItem::section('👥 Communauté & Messages');

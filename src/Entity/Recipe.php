@@ -3,9 +3,41 @@
 namespace App\Entity;
 
 use App\Repository\RecipeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Delete;
 
 #[ORM\Entity(repositoryClass: RecipeRepository::class)]
+#[ApiResource(
+    operations: [
+        new Get(),
+        new GetCollection(),
+        new Post(security: "is_granted('ROLE_ADMIN')"),
+        new Delete(security: "is_granted('ROLE_ADMIN')")
+    ]
+)]
+#[ApiFilter(SearchFilter::class, properties: [
+    'category.slug' => 'exact',
+    'isPublished' => 'exact',
+    'title' => 'partial',
+    'ingredients.name' => 'partial',
+])]
+#[ApiFilter(DateFilter::class, properties: [
+    'createdAt'
+])]
+#[ApiFilter(OrderFilter::class, properties: [
+    'createdAt' => 'DESC',
+    'title' => 'ASC'
+])]
 class Recipe
 {
     #[ORM\Id]
@@ -36,6 +68,17 @@ class Recipe
 
     #[ORM\ManyToOne(inversedBy: 'recipes')]
     private ?RecipeCategory $category = null;
+
+    /**
+     * @var Collection<int, RecipeIngredient>
+     */
+    #[ORM\OneToMany(targetEntity: RecipeIngredient::class, mappedBy: 'recipe')]
+    private Collection $recipeIngredients;
+
+    public function __construct()
+    {
+        $this->recipeIngredients = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -134,6 +177,36 @@ class Recipe
     public function setCategory(?RecipeCategory $category): static
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RecipeIngredient>
+     */
+    public function getRecipeIngredients(): Collection
+    {
+        return $this->recipeIngredients;
+    }
+
+    public function addRecipeIngredient(RecipeIngredient $recipeIngredient): static
+    {
+        if (!$this->recipeIngredients->contains($recipeIngredient)) {
+            $this->recipeIngredients->add($recipeIngredient);
+            $recipeIngredient->setRecipe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecipeIngredient(RecipeIngredient $recipeIngredient): static
+    {
+        if ($this->recipeIngredients->removeElement($recipeIngredient)) {
+            // set the owning side to null (unless already changed)
+            if ($recipeIngredient->getRecipe() === $this) {
+                $recipeIngredient->setRecipe(null);
+            }
+        }
 
         return $this;
     }

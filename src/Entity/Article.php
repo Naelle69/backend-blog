@@ -229,4 +229,10 @@ class Article
     {
         $this->imageName = $imageName;
     }  
+
+    
+public function __toString(): string
+{
+    return $this->title; // ou un autre champ texte représentatif
+}
 }
