@@ -50,6 +50,12 @@ class Ingredient
     #[ORM\Column(length: 255)]
     private ?string $source = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $externalId = null;
+
+    #[ORM\ManyToOne(inversedBy: 'ingredients')]
+    private ?IngredientsCategory $ingredientsCategory = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -136,4 +142,28 @@ class Ingredient
     {
         return $this->name ?? '';
     }
+
+    public function getExternalId(): ?string
+    {
+        return $this->externalId;
+    }
+
+    public function setExternalId(?string $externalId): static
+    {
+        $this->externalId = $externalId;
+        return $this;
+    }
+
+    public function getIngredientsCategory(): ?IngredientsCategory
+    {
+        return $this->ingredientsCategory;
+    }
+
+    public function setIngredientsCategory(?IngredientsCategory $ingredientsCategory): static
+    {
+        $this->ingredientsCategory = $ingredientsCategory;
+
+        return $this;
+    }
+
 }

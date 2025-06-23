@@ -18,8 +18,10 @@ use ApiPlatform\Metadata\Delete;
     operations: [
         new Get(),
         new GetCollection(),
-        new Post(security: "is_granted('ROLE_ADMIN')"),
-        new Delete(security: "is_granted('ROLE_ADMIN')")
+        new Post(),
+        new Delete()
+        /* new Post(security: "is_granted('ROLE_ADMIN')"),
+        new Delete(security: "is_granted('ROLE_ADMIN')") */
     ]
 )]
 class RecipeCategory
